@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ngMap'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
@@ -41,16 +41,14 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
-})
+.controller('MapCtrl', function($scope, $stateParams, $http, $timeout) {
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+  // $http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=37.7577,-122.4376&radius=30000&types=bar&keyword=gay&key=AIzaSyATy7HmpP5HnTkO6mGUuiAJFswORqSgk9w')
+  // .then(function(response) {
+    // $scope.bars = response;
+  // });
+
+
+  // render all pins and info windows to the map based on the returned data
+
 });
