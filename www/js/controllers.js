@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngMap'])
+angular.module('starter.controllers', ['ngMap', 'ionic', 'ngCordova'])
 
 .controller("ExampleController", function($scope) {
 
@@ -78,7 +78,7 @@ angular.module('starter.controllers', ['ngMap'])
   };
 })
 
-.controller('MapCtrl', ['$scope', '$stateParams', '$http', '$timeout', function($scope, $stateParams, $http, $timeout) {
+.controller('MapCtrl', ['$scope', '$stateParams', '$http', '$timeout', '$cordovaGeolocation', '$ionicPlatform', function($scope, $stateParams, $http, $timeout, $cordovaGeolocation, $ionicPlatform) {
 
   // customize bar pin style on view
   $scope.image = {
@@ -86,21 +86,6 @@ angular.module('starter.controllers', ['ngMap'])
     size: [20, 32],
     origin: [0,0],
     anchor: [0, 32]
-  };
-
-  // button to zoom to Castro
-  var castro = new google.maps.LatLng(37.765909, -122.430985);
-  $scope.castro = function() {
-    console.log(castro);
-    $scope.map.setCenter(castro);
-    $scope.map.setZoom(16);
-  };
-
-  // button to zoom to SoMa
-  $scope.soma = function() {
-    var soma = new google.maps.LatLng(37.773625, -122.411774);
-    $scope.map.setCenter(soma);
-    $scope.map.setZoom(16);
   };
 
   $scope.$on('mapInitialized', function (event, map) {
@@ -156,10 +141,52 @@ angular.module('starter.controllers', ['ngMap'])
 
             infowindow.setPosition(center);
             infowindow.open($scope.objMapa);
-            $scope.objMapa.setZoom(15);
+            $scope.objMapa.setZoom(16);
             $scope.objMapa.setCenter(center);
          };
 
-  // render all pins and info windows to the map based on the returned data
+   // button to zoom to Castro
+   var castro = new google.maps.LatLng(37.765909, -122.430985);
+   $scope.castro = function() {
+     console.log(castro);
+     $scope.objMapa.setCenter(castro);
+     $scope.objMapa.setZoom(16);
+   };
+
+   // button to zoom to SoMa
+   $scope.soma = function() {
+     var soma = new google.maps.LatLng(37.773625, -122.411774);
+     $scope.objMapa.setCenter(soma);
+     $scope.objMapa.setZoom(16);
+   };
+
+   $scope.me = function() {
+     var posOptions = {timeout: 10000, enableHighAccuracy: false};
+     $cordovaGeolocation
+       .getCurrentPosition(posOptions)
+       .then(function (position) {
+         var lat  = position.coords.latitude;
+         var lng = position.coords.longitude;
+
+         var infowindow = new google.maps.InfoWindow();
+         var me = new google.maps.LatLng(lat, lng);
+         $scope.objMapa.setCenter(me);
+         $scope.objMapa.setZoom(16);
+
+         infowindow.setContent(
+             '<p>' + " Bitch, we found you (again) " + '</p>'
+         );
+
+         infowindow.setPosition(me);
+         infowindow.open($scope.objMapa);
+         $scope.objMapa.setZoom(16);
+         $scope.objMapa.setCenter(me);
+
+       }, function(err) {
+         alert("We can't find your current location!");
+     });
+
+   };
+
 
 }]);

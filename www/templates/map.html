@@ -1,23 +1,32 @@
 <ion-view view-title="Map">
   <ion-content>
     <map center="current location" zoom="13" disable-default-u-i="true">
+
+      <transit-layer></transit-layer>
+
       <marker ng-repeat="bar in bars | filter:q as results" position="{{bar.lat}}, {{bar.lng}}" on-click="show(event, bar)"></marker>
 
-      <info-window position="current-location" visible="true">
+      <info-window position="current-location" visible="true" id="me-info-window">
           <span>Bitch, we found you</span>
       </info-window>
 
       <!-- custom button to zoom to Castro -->
-      <custom-control id="Castro" position="TOP_CENTER" index="1" on-click="castro()">
+      <custom-control id="castro" position="TOP_CENTER" index="1" on-click="castro()">
         <div>
           <button class="btn btn-default">Castro</button>
         </div>
       </custom-control>
 
       <!-- custom button to zoom to soma -->
-      <custom-control id="SoMa" position="TOP_CENTER" index="1" on-click="soma()">
+      <custom-control id="soma" position="TOP_CENTER" index="1" on-click="soma()">
         <div>
           <button class="btn btn-default">SoMa</button>
+        </div>
+      </custom-control>
+
+      <custom-control id="me" position="TOP_CENTER" index="1" on-click="me()">
+        <div>
+          <button class="btn btn-default">Me</button>
         </div>
       </custom-control>
 

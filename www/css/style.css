@@ -1,5 +1,23 @@
 /* Empty. Add your own CSS if you like */
 
 map {
-  height: 100vh;
+  height: 93vh;
+  width: 100vw;
+}
+
+/*make sure buttons display at the bottom center of the screen*/
+
+#soma {
+  margin: 5px;
+  border-radius: 0px;
+}
+
+#castro {
+  margin: 5px;
+  border-radius: 0px;
+}
+
+#me {
+  margin: 5px;
+  border-radius: 0px;
 }
