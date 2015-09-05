@@ -8,6 +8,9 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
+
+    Parse.initialize("4JxAefwGViPPJeW3WyjfMh3yzLACkdI81S7XLRW4", "rUi3mhUKevKSFVXQHxcj5JZKkoBIQbQQuTaqHrSy");
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -45,7 +48,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: '/browse',
       views: {
         'menuContent': {
-          templateUrl: 'templates/browse.html'
+          templateUrl: 'templates/browse.html',
+          controller: 'MapCtrl'
         }
       }
     })
