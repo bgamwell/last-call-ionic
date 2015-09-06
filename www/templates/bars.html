@@ -1,8 +1,13 @@
 <ion-view view-title="Venue Information">
   <ion-content>
-    <div ng-model="barVariable">
-      <h1>{{barVariable[whichBar].name}}</h1>
-      <p>{{barVariable[whichBar].description}}</p>
-    </div>
+    <h1>{{thisBar.name}}</h1>
+    <p>{{thisBar.vicinity}}</p>
+    <!-- need to use regex to change how the tags are displayed -->
+    <span ng-repeat="type in descriptionArray">{{type}}</span>
+
+    <map center="{{thisBar.geometry.location.lat}}, {{thisBar.geometry.location.lng}}">
+      <marker position="{{thisBar.geometry.location.lat}}, {{thisBar.geometry.location.lng}}"></marker>
+      <marker position="current location"</marker>
+    </map>
   </ion-content>
 </ion-view>
