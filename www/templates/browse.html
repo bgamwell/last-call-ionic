@@ -1,7 +1,7 @@
-<ion-view view-title="Browse">
+<ion-view view-title="Browse Bars">
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="bar in bars">
+      <ion-item ng-repeat="bar in bars" href="#/app/bars/{{bar.id}}">
         <p><strong>{{bar.name}}</strong></p>
         <p>description goes here</p>
       </ion-item>

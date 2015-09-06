@@ -4,9 +4,9 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
+var app = angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngTouch', 'ngRoute'])
 
-.run(function($ionicPlatform) {
+app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
 
     Parse.initialize("4JxAefwGViPPJeW3WyjfMh3yzLACkdI81S7XLRW4", "rUi3mhUKevKSFVXQHxcj5JZKkoBIQbQQuTaqHrSy");
@@ -25,7 +25,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
     .state('app', {
@@ -63,7 +63,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
           controller: 'MapCtrl'
         }
       }
-    });
+    })
+
+    // display information for a single bar
+    .state('app.single', {
+    url: '/bars/:barId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/bars.html',
+        controller: 'BarCtrl'
+      }
+    }
+  });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/map');

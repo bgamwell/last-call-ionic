@@ -4,7 +4,9 @@
 
       <transit-layer></transit-layer>
 
-      <marker ng-repeat="bar in bars | filter:q as results" position="{{bar.lat}}, {{bar.lng}}" on-click="show(event, bar)"></marker>
+      <label ng-repeat="bar in bars | filter:q as results">
+        <marker position="{{bar.lat}}, {{bar.lng}}" on-click="show(event, bar)" ng-click="show(event, bar)"></marker>
+      </label>
 
       <info-window position="current-location" visible="true" id="me-info-window">
           <span>Bitch, we found you</span>
@@ -17,16 +19,17 @@
         </div>
       </custom-control>
 
+      <!-- custom button to zoom to current location -->
+      <custom-control id="me" position="TOP_CENTER" index="1" on-click="me()">
+        <div>
+          <button class="btn btn-default">Me</button>
+        </div>
+      </custom-control>
+
       <!-- custom button to zoom to soma -->
       <custom-control id="soma" position="TOP_CENTER" index="1" on-click="soma()">
         <div>
           <button class="btn btn-default">SoMa</button>
-        </div>
-      </custom-control>
-
-      <custom-control id="me" position="TOP_CENTER" index="1" on-click="me()">
-        <div>
-          <button class="btn btn-default">Me</button>
         </div>
       </custom-control>
 
