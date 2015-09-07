@@ -97,15 +97,9 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
     $scope.objMapa = map;
   });
 
-  // customize bar pin style on view
-  $scope.image = {
-    url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-    size: [20, 32],
-    origin: [0,0],
-    anchor: [0, 32]
-  };
-
   $scope.show = function (event, bar) {
+
+    alert("clicked show info window!");
 
       var infowindow = new google.maps.InfoWindow();
       var center = new google.maps.LatLng(bar.geometry.location.lat, bar.geometry.location.lng);
