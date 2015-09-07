@@ -3,7 +3,7 @@
     <h1>{{thisBar.name}}</h1>
     <p>{{thisBar.vicinity}}</p>
     <!-- need to use regex to change how the tags are displayed -->
-    <span ng-repeat="type in descriptionArray">{{type}}</span>
+    <!-- <span ng-repeat="type in descriptionArray">{{type}}</span> -->
 
     <map disable-default-u-i="true" center="{{thisBar.geometry.location.lat}}, {{thisBar.geometry.location.lng}}">
       <marker position="{{thisBar.geometry.location.lat}}, {{thisBar.geometry.location.lng}}"></marker>

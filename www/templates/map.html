@@ -1,41 +1,41 @@
 <ion-view view-title="Map">
   <ion-content scroll="false" data-tap-disabled="true">
-    <div>
+
+    <div id="map-canvas">
+      <map center="current location" zoom="13" disable-default-u-i="true">
+
+        <!-- <transit-layer></transit-layer> -->
+
+        <label ng-repeat="bar in bars | filter:q as results">
+          <marker position="{{bar.geometry.location.lat}}, {{bar.geometry.location.lng}}" on-click="show(event, bar)"></marker>
+        </label>
+
+        <info-window position="current-location" visible="true" id="me-info-window">
+            <span>Bitch, we found you</span>
+        </info-window>
+
+        <!-- custom button to zoom to Castro -->
+        <custom-control id="castro" position="TOP_CENTER" index="1" ng-click="castro()">
+          <div>
+            <button class="btn btn-default">Castro</button>
+          </div>
+        </custom-control>
+
+        <!-- custom button to zoom to current location -->
+        <custom-control id="me" position="TOP_CENTER" index="1" ng-click="me()">
+          <div>
+            <button class="btn btn-default">Me</button>
+          </div>
+        </custom-control>
+
+        <!-- custom button to zoom to soma -->
+        <custom-control id="soma" position="TOP_CENTER" index="1" ng-click="soma()">
+          <div>
+            <button class="btn btn-default">SoMa</button>
+          </div>
+        </custom-control>
+
+      </map>
     </div>
-
-    <map center="current location" zoom="13" disable-default-u-i="true">
-
-      <!-- <transit-layer></transit-layer> -->
-
-      <label ng-repeat="bar in bars | filter:q as results">
-        <marker position="{{bar.geometry.location.lat}}, {{bar.geometry.location.lng}}" on-click="show(event, bar)"></marker>
-      </label>
-
-      <info-window position="current-location" visible="true" id="me-info-window">
-          <span>Bitch, we found you</span>
-      </info-window>
-
-      <!-- custom button to zoom to Castro -->
-      <custom-control id="castro" position="TOP_CENTER" index="1" ng-click="castro()">
-        <div>
-          <button class="btn btn-default">Castro</button>
-        </div>
-      </custom-control>
-
-      <!-- custom button to zoom to current location -->
-      <custom-control id="me" position="TOP_CENTER" index="1" ng-click="me()">
-        <div>
-          <button class="btn btn-default">Me</button>
-        </div>
-      </custom-control>
-
-      <!-- custom button to zoom to soma -->
-      <custom-control id="soma" position="TOP_CENTER" index="1" ng-click="soma()">
-        <div>
-          <button class="btn btn-default">SoMa</button>
-        </div>
-      </custom-control>
-
-    </map>
   </ion-content>
 </ion-view>

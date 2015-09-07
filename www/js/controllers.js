@@ -104,9 +104,11 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
       var infowindow = new google.maps.InfoWindow();
       var center = new google.maps.LatLng(bar.geometry.location.lat, bar.geometry.location.lng);
 
+      console.log(bar.id);
+
+      // this doesn't seem to be working, and I have no idea why; it's exactly the same as the code on the browse page
       infowindow.setContent(
-          '<p>' + bar.name + '</p>' +
-          '<p>' + bar.vicinity + '</p>'
+          "<p><a href='#/app/bars/" + bar.id + "'>" + bar.name + "</a></p>"
       );
 
       infowindow.setPosition(center);
@@ -166,7 +168,7 @@ app.controller('BarCtrl', ['$scope', '$rootScope', '$stateParams', '$routeParams
 
   $scope.thisBar = _.findWhere($rootScope.bars, {id: $scope.whichBar});
 
-  $scope.descriptionArray = $scope.thisBar.types;
+  // $scope.descriptionArray = $scope.thisBar.types;
 
   // bars.then(function(data){
 	// 	$scope.barVariable = data.data;
