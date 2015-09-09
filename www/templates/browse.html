@@ -1,10 +1,14 @@
 <ion-view view-title="Browse Bars">
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="bar in bars" ng-href="#/app/bars/{{bar.id}}">
-        <p><strong>{{bar.name}}</strong>&nbsp;&nbsp;&nbsp;<label><a href="javascript:void(0)"><i ng-click="saveBar(bar)" class="ion-android-favorite"></i></a></label></p>
+      <ion-item ng-repeat="bar in bars" ng-href="#/app/bars/{{bar.id}}" class="item item-icon-left">
+        <div href="javascript:void(0)" ng-click="saveBar(bar)">
+          <i class="icon ion-thumbsup"></i>
+        </div>
+
+        <p><strong>{{bar.name}}</strong></p>
         <p>{{bar.vicinity}}</p>
-        <p>{{bar.id}}</p>
+
       </ion-item>
     </ion-list>
   </ion-content>

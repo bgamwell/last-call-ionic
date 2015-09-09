@@ -225,7 +225,7 @@ app.controller('FavoritesCtrl', ['$scope', '$state', function ($scope, $state) {
   }
 }]);
 
-app.controller('BarCtrl', ['$scope', '$rootScope', '$stateParams', '$routeParams', 'bars', '$timeout', '$cordovaGeolocation', '$ionicPlatform', '$http', function($scope, $rootScope, $stateParams, $routeParams, bars, $timeout, $cordovaGeolocation, $ionicPlatform, $http){
+app.controller('BarCtrl', ['$scope', '$rootScope', '$stateParams', '$routeParams', 'bars', '$timeout', '$cordovaGeolocation', '$ionicPlatform', '$http', '$cordovaSocialSharing', function($scope, $rootScope, $stateParams, $routeParams, bars, $timeout, $cordovaGeolocation, $ionicPlatform, $http, $cordovaSocialSharing){
 
   $scope.whichBar = $stateParams.barId;
 
@@ -238,5 +238,21 @@ app.controller('BarCtrl', ['$scope', '$rootScope', '$stateParams', '$routeParams
       // return an array of bars
       $scope.specificBar = response.data.result;
     });
+
+  $scope.shareThis = function (message, image, link) {
+
+    console.log(message);
+    console.log(image);
+    console.log(link);
+
+    $cordovaSocialSharing
+      .shareViaFacebook(message, image, link)
+      .then(function(result) {
+        alert("Shared to Facebook!");
+      }, function(err) {
+        alert("Oops, something went wrong! Try again, please.");
+    });
+
+  };
 
 }]);

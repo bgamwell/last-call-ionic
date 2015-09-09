@@ -5,9 +5,8 @@
   width: 100vw;
 }
 
-#bar-view-map {
+.bar-view-map {
   height: 25vh;
-  width: 100vw;
 }
 
 /*make sure buttons display at the bottom center of the screen*/
@@ -32,9 +31,9 @@ h1 {
   padding: 10px 10px 0px 10px;
 }
 
-p {
+/*p {
   padding: 0px 10px 0px 10px;
-}
+}*/
 
 ul {
   list-style: none;
@@ -45,4 +44,9 @@ ul {
 
 li {
   display: inline-block;
+}
+
+.button {
+  border-radius: 100px;
+  margin-bottom: 20px;
 }

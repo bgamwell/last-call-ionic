@@ -1,29 +1,53 @@
 <ion-view view-title="Venue Information">
   <ion-content>
-    <h1>{{specificBar.name}}&nbsp;&nbsp;&nbsp;<i ng-click="saveBar(specificBar)" class="ion-android-favorite"></i></h1>
-      <p><center><strong>Average Rating:</strong> {{specificBar.rating}}</center></p>
-    <ul>
-      <li>{{specificBar.formatted_phone_number}}</li> |
-      <li>{{specificBar.website}}</li>
-    </ul>
 
-    <map id="bar-view-map" disable-default-u-i="true" center="{{thisBar.geometry.location.lat}}, {{thisBar.geometry.location.lng}}">
-      <marker position="{{thisBar.geometry.location.lat}}, {{thisBar.geometry.location.lng}}"></marker>
-      <marker position="current location"</marker>
-    </map>
+    <div class="list card">
 
-    <div ng-if="specificBar.reviews.length > 0">
-      <h1>Ratings</h1>
-      <div ng-repeat="favorite in specificBar.reviews">
-        <div ng-if="favorite.text.length < 500">
-          <div class="card">
-            <div class="item item-text-wrap">
-              <p><strong>Rating:</strong> {{favorite.rating}}</p>
-              <p><strong>User Review:</strong> {{favorite.text}}</p>
-          </div>
+      <div class="item">
+        <h2>{{specificBar.name}}</h2>
+        <div ng-if="specificBar.website !== null">
+          <p><a href='{{specificBar.website}}'>Website<a></p>
         </div>
       </div>
+
+      <div class="item item-body">
+        <map class="bar-view-map" disable-default-u-i="true" center="{{thisBar.geometry.location.lat}}, {{thisBar.geometry.location.lng}}">
+          <marker position="{{thisBar.geometry.location.lat}}, {{thisBar.geometry.location.lng}}"></marker>
+          <marker position="current location"</marker>
+        </map>
+      </div>
+
+      <div class="item tabs tabs-secondary tabs-icon-left">
+        <a class="tab-item" ng-click="saveBar(specificBar)">
+          <i class="icon ion-thumbsup"></i>
+          Favorite
+        </a>
+        <a class="tab-item" ng-click="shareThis('Headed to ' + specificBar.name + ' thanks to the Last Call App!', null, specificBar.website)">
+          <i class="icon ion-share"></i>
+          Share
+        </a>
+
+      </div>
+
+        <div class="item item-body">
+          <div ng-if="specificBar.reviews.length > 0">
+            <div class="item">
+              <h3>Reviews for {{specificBar.name}}</h3>
+            </div>
+            <div ng-repeat="favorite in specificBar.reviews">
+              <div ng-if="favorite.text.length < 500">
+                <div class="item item-text-wrap">
+                  <p><strong>Rating:</strong> {{favorite.rating}}</p>
+                  <p><strong>User Review:</strong> {{favorite.text}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
     </div>
+
+
 
   </ion-content>
 </ion-view>
