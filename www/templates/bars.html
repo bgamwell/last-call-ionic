@@ -1,11 +1,29 @@
 <ion-view view-title="Venue Information">
   <ion-content>
-    <h1>{{specificBar.name}}</h1>&nbsp;&nbsp;&nbsp;<i ng-click="saveBar(specificBar)" class="ion-android-favorite"></i>
-    <!-- <p>{{specificBar.adr_address}}</p> -->
+    <h1>{{specificBar.name}}&nbsp;&nbsp;&nbsp;<i ng-click="saveBar(specificBar)" class="ion-android-favorite"></i></h1>
+      <p><center><strong>Average Rating:</strong> {{specificBar.rating}}</center></p>
+    <ul>
+      <li>{{specificBar.formatted_phone_number}}</li> |
+      <li>{{specificBar.website}}</li>
+    </ul>
 
-    <map disable-default-u-i="true" center="{{thisBar.geometry.location.lat}}, {{thisBar.geometry.location.lng}}">
+    <map id="bar-view-map" disable-default-u-i="true" center="{{thisBar.geometry.location.lat}}, {{thisBar.geometry.location.lng}}">
       <marker position="{{thisBar.geometry.location.lat}}, {{thisBar.geometry.location.lng}}"></marker>
       <marker position="current location"</marker>
     </map>
+
+    <div ng-if="specificBar.reviews.length > 0">
+      <h1>Ratings</h1>
+      <div ng-repeat="favorite in specificBar.reviews">
+        <div ng-if="favorite.text.length < 500">
+          <div class="card">
+            <div class="item item-text-wrap">
+              <p><strong>Rating:</strong> {{favorite.rating}}</p>
+              <p><strong>User Review:</strong> {{favorite.text}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </ion-content>
 </ion-view>

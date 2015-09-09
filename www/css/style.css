@@ -5,6 +5,11 @@
   width: 100vw;
 }
 
+#bar-view-map {
+  height: 25vh;
+  width: 100vw;
+}
+
 /*make sure buttons display at the bottom center of the screen*/
 
 #soma {
@@ -20,4 +25,24 @@
 #me {
   margin: 5px;
   border-radius: 0px;
+}
+
+h1 {
+  text-align: center;
+  padding: 10px 10px 0px 10px;
+}
+
+p {
+  padding: 0px 10px 0px 10px;
+}
+
+ul {
+  list-style: none;
+  text-align: center;
+  padding: 0px 0px 10px 0px;
+  margin: 0;
+}
+
+li {
+  display: inline-block;
 }

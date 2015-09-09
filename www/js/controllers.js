@@ -97,9 +97,23 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
     $scope.objMapa = map;
   });
 
+  // empty array of info windows
+  var infoWindows = [];
+
   $scope.show = function (event, bar) {
 
+      // iterate over all infoWindows and close them
+      if (infoWindows.length !== 0) {
+        for (var i=0;i<infoWindows.length;i++) {
+          infoWindows[i].close();
+        }
+      }
+
       var infowindow = new google.maps.InfoWindow();
+
+      // push this infowindow into a new array of infoindows
+      infoWindows.push(infowindow);
+
       var center = new google.maps.LatLng(bar.geometry.location.lat, bar.geometry.location.lng);
 
       console.log(bar.id);
@@ -139,6 +153,7 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
          var lng = position.coords.longitude;
 
          var infowindow = new google.maps.InfoWindow();
+
          var me = new google.maps.LatLng(lat, lng);
          $scope.objMapa.setCenter(me);
          $scope.objMapa.setZoom(16);
@@ -222,10 +237,6 @@ app.controller('BarCtrl', ['$scope', '$rootScope', '$stateParams', '$routeParams
     .then(function(response) {
       // return an array of bars
       $scope.specificBar = response.data.result;
-      console.log(response.data.result);
     });
-
-  //$scope.thisBar.place_id
-
 
 }]);
