@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngMap', 'ionic', 'ngCordova', 'ngTouch', 'ngRoute']);
+angular.module('starter.controllers', ['ngMap', 'ionic', 'ngCordova', 'ngTouch', 'ngRoute', 'ui.router']);
 
 app.controller("ExampleController", function($scope) {
 
@@ -99,8 +99,6 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
 
   $scope.show = function (event, bar) {
 
-    alert("clicked show info window!");
-
       var infowindow = new google.maps.InfoWindow();
       var center = new google.maps.LatLng(bar.geometry.location.lat, bar.geometry.location.lng);
 
@@ -160,26 +158,74 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
 
    };
 
+   $rootScope.saveBar = function (bar) {
+      // check if localStorage.photos doesn't exist yet
+      if (!localStorage.bars) {
+        localStorage.bars = JSON.stringify([]);
+      }
+      console.log(bar);
+
+      // if a bar is already present in local storage, don't save it; if you do save it, an error will be thrown
+
+      // get existing favorites from localStorage.photos
+      var allBars = JSON.parse(localStorage.bars);
+
+      // allBars.push(bar);
+
+      if (!(_.findWhere(allBars, {id: bar.id}))) {
+        allBars.push(bar);
+        console.log(bar);
+        alert(bar.name + " has been added to favorites!");
+      } else {
+        alert("That bar is already in your favorites!");
+      }
+
+      // reset localStorage.photos to updated array of all photos
+      localStorage.bars = JSON.stringify(allBars);
+      console.log(localStorage.bars);
+
+      // workaround - on click of once forever, disable the button? can jquery be added into the controller?
+
+      };
+
    }]);
 
-app.controller('BarCtrl', ['$scope', '$rootScope', '$stateParams', '$routeParams', 'bars', '$timeout', '$cordovaGeolocation', '$ionicPlatform', function($scope, $rootScope, $stateParams, $routeParams, bars, $timeout, $cordovaGeolocation, $ionicPlatform){
+   //favorites only appear on reload of page; this isn't possible on an iphone app, so we never see the favorites, which is strange
+
+app.controller('FavoritesCtrl', ['$scope', '$state', function ($scope, $state) {
+
+  // $state.go($state.current, {}, { reload: true });
+  // $state.reload();
+  console.log($state);
+
+  // try scope apply to update the state - read about digest cycle
+  // window.refresh
+  // window.location.reload
+
+  if (!localStorage.bars) {
+   $scope.favorites = [];
+  } else {
+    $scope.favorites = JSON.parse(localStorage.bars);
+    console.log($scope.favorites);
+  }
+}]);
+
+app.controller('BarCtrl', ['$scope', '$rootScope', '$stateParams', '$routeParams', 'bars', '$timeout', '$cordovaGeolocation', '$ionicPlatform', '$http', function($scope, $rootScope, $stateParams, $routeParams, bars, $timeout, $cordovaGeolocation, $ionicPlatform, $http){
 
   $scope.whichBar = $stateParams.barId;
 
   $scope.thisBar = _.findWhere($rootScope.bars, {id: $scope.whichBar});
 
-  // $scope.descriptionArray = $scope.thisBar.types;
+  console.log("place_id for thebar is " + $scope.thisBar.place_id);
 
-  // bars.then(function(data){
-	// 	$scope.barVariable = data.data;
-  //   console.log($scope.barVariable);
-  //
-  //   var testing = data.data;
-  //   console.log(testing);
-  //   console.log(testing[1]);
-  //
-	// 	$scope.whichBar = $stateParams.barId;
-  //   console.log($scope.whichBar);
-	// });
+  $http.get('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + $scope.thisBar.place_id + '&key=AIzaSyATy7HmpP5HnTkO6mGUuiAJFswORqSgk9w')
+    .then(function(response) {
+      // return an array of bars
+      $scope.specificBar = response.data.result;
+      console.log(response.data.result);
+    });
+
+  //$scope.thisBar.place_id
+
 
 }]);

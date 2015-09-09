@@ -74,6 +74,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
         controller: 'BarCtrl'
       }
     }
+  })
+
+  .state('app.favorites', {
+    url: '/favorites',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/favorites.html',
+        controller: 'FavoritesCtrl'
+      }
+    }
   });
 
   // if none of the above states are matched, use this as the fallback

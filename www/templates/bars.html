@@ -1,9 +1,7 @@
 <ion-view view-title="Venue Information">
   <ion-content>
-    <h1>{{thisBar.name}}</h1>
-    <p>{{thisBar.vicinity}}</p>
-    <!-- need to use regex to change how the tags are displayed -->
-    <!-- <span ng-repeat="type in descriptionArray">{{type}}</span> -->
+    <h1>{{specificBar.name}}</h1>&nbsp;&nbsp;&nbsp;<i ng-click="saveBar(specificBar)" class="ion-android-favorite"></i>
+    <!-- <p>{{specificBar.adr_address}}</p> -->
 
     <map disable-default-u-i="true" center="{{thisBar.geometry.location.lat}}, {{thisBar.geometry.location.lng}}">
       <marker position="{{thisBar.geometry.location.lat}}, {{thisBar.geometry.location.lng}}"></marker>
