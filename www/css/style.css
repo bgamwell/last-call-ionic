@@ -12,10 +12,6 @@
   color: black;
 }
 
-.ion-thumbsup {
-  color: #779dca;
-}
-
 #soma {
   margin: 5px;
   border-radius: 0px;
@@ -49,4 +45,8 @@ li {
 .button {
   border-radius: 100%;
   margin-bottom: 20px;
+}
+
+a {
+  text-decoration: none;
 }
