@@ -1,10 +1,10 @@
-<ion-view view-title="Venue Information">
+<ion-view view-title="Bar Information">
   <ion-content>
 
     <div class="list card">
 
       <div class="item">
-        <h2>{{specificBar.name}}</h2>
+        <h2><strong>{{specificBar.name}}</strong></h2>
         <div ng-if="specificBar.website !== null">
           <p><a href='{{specificBar.website}}'>Website<a></p>
         </div>
@@ -29,22 +29,22 @@
 
       </div>
 
-        <div class="item item-body">
-          <div ng-if="specificBar.reviews.length > 0">
-            <div class="item">
-              <h3>Reviews for {{specificBar.name}}</h3>
+    <div class="item item-body">
+      <div ng-if="specificBar.reviews.length > 0">
+        <div class="item">
+          <h2>Reviews for {{specificBar.name}}</h2>
+        </div>
+        <div ng-repeat="favorite in specificBar.reviews">
+          <div ng-if="favorite.text.length < 500">
+            <div class="item item-divider">
+              <h2><strong>Visitor Rating:</strong> {{favorite.rating}}</h2>
             </div>
-            <div ng-repeat="favorite in specificBar.reviews">
-              <div ng-if="favorite.text.length < 500">
-                <div class="item item-text-wrap">
-                  <p><strong>Rating:</strong> {{favorite.rating}}</p>
-                  <p><strong>User Review:</strong> {{favorite.text}}</p>
-                </div>
-              </div>
+            <div class="item item-text-wrap">
+              <p><strong>User Review:</strong> {{favorite.text}}</p>
             </div>
           </div>
-
-
+        </div>
+      </div>
     </div>
 
 

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.16" /> -->
 <widget id="com.ionicframework.lastcallionic527562" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>last-call-ionic</name>
   <description>

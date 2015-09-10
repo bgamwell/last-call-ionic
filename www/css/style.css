@@ -1,15 +1,20 @@
 /* Empty. Add your own CSS if you like */
 
 #map-canvas {
-  height: 92vh;
-  width: 100vw;
+  height: 88vh;
 }
 
 .bar-view-map {
   height: 25vh;
 }
 
-/*make sure buttons display at the bottom center of the screen*/
+#menu-fave {
+  color: black;
+}
+
+.ion-thumbsup {
+  color: #779dca;
+}
 
 #soma {
   margin: 5px;
@@ -26,14 +31,9 @@
   border-radius: 0px;
 }
 
-h1 {
-  text-align: center;
-  padding: 10px 10px 0px 10px;
+#beer{
+  font-size: 100px;
 }
-
-/*p {
-  padding: 0px 10px 0px 10px;
-}*/
 
 ul {
   list-style: none;
@@ -47,6 +47,6 @@ li {
 }
 
 .button {
-  border-radius: 100px;
+  border-radius: 100%;
   margin-bottom: 20px;
 }

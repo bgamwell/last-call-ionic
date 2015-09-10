@@ -1,50 +1,6 @@
 angular.module('starter.controllers', ['ngMap', 'ionic', 'ngCordova', 'ngTouch', 'ngRoute', 'ui.router']);
 
-app.controller("ExampleController", function($scope) {
-
-    $scope.savePerson = function(firstname, lastname) {
-        var PeopleObject = Parse.Object.extend("PeopleObject");
-        var person = new PeopleObject();
-        person.set("firstname", firstname);
-        person.set("lastname", lastname);
-        person.save(null, {});
-    };
-
-    $scope.getPeople = function(params) {
-    var PeopleObject = Parse.Object.extend("PeopleObject");
-    var query = new Parse.Query(PeopleObject);
-    if(params !== undefined) {
-        if(params.lastname !== undefined) {
-            query.equalTo("lastname", params.lastname);
-        }
-        if(params.firstname !== undefined) {
-            query.equalTo("firstname", params.lastname);
-        }
-    }
-    query.find({
-        success: function(results) {
-            alert("Successfully retrieved " + results.length + " people!");
-            for (var i = 0; i < results.length; i++) {
-                var object = results[i];
-                console.log(object.id + ' - ' + object.get("firstname") + " " + object.get("lastname"));
-            }
-        },
-        error: function(error) {
-            alert("Error: " + error.code + " " + error.message);
-        }
-    });
-};
-
-});
-
 app.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
-
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
 
   // Form data for the login modal
   $scope.loginData = {};
@@ -86,13 +42,6 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
       $rootScope.bars = response.data.results;
     });
 
-  // use seed data as a service for testing purposes
-
-  // bars.then(function (data) {
-  //   $scope.bars = data.data;
-  //   console.log(bars);
-  // });
-
   $scope.$on('mapInitialized', function (event, map) {
     $scope.objMapa = map;
   });
@@ -104,7 +53,7 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
 
       // iterate over all infoWindows and close them
       if (infoWindows.length !== 0) {
-        for (var i=0;i<infoWindows.length;i++) {
+        for (var i = 0 ; i < infoWindows.length ; i++) {
           infoWindows[i].close();
         }
       }
@@ -130,7 +79,7 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
    };
 
    // button to zoom to Castro
-   var castro = new google.maps.LatLng(37.765909, -122.430985);
+   var castro = new google.maps.LatLng(37.7625247, -122.4361676);
    $scope.castro = function() {
      console.log(castro);
      $scope.objMapa.setCenter(castro);
@@ -144,7 +93,8 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
      $scope.objMapa.setZoom(16);
    };
 
-   $scope.me = function() {
+   $rootScope.me = function() {
+
      var posOptions = {timeout: 10000, enableHighAccuracy: false};
      $cordovaGeolocation
        .getCurrentPosition(posOptions)
@@ -159,7 +109,7 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
          $scope.objMapa.setZoom(16);
 
          infowindow.setContent(
-             '<p>' + " Bitch, we found you (again) " + '</p>'
+             '<p>' + " Bitch, we found you " + '</p>'
          );
 
          infowindow.setPosition(me);
@@ -182,40 +132,32 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
 
       // if a bar is already present in local storage, don't save it; if you do save it, an error will be thrown
 
-      // get existing favorites from localStorage.photos
-      var allBars = JSON.parse(localStorage.bars);
+      // get existing favorites from localStorage.bars
+      $rootScope.allBars = JSON.parse(localStorage.bars);
 
       // allBars.push(bar);
 
-      if (!(_.findWhere(allBars, {id: bar.id}))) {
-        allBars.push(bar);
+      if (!(_.findWhere($rootScope.allBars, {id: bar.id}))) {
+        $rootScope.allBars.push(bar);
         console.log(bar);
         alert(bar.name + " has been added to favorites!");
       } else {
         alert("That bar is already in your favorites!");
       }
 
-      // reset localStorage.photos to updated array of all photos
-      localStorage.bars = JSON.stringify(allBars);
+      // reset localStorage.photos to updated array of all bars
+      localStorage.bars = JSON.stringify($rootScope.allBars);
       console.log(localStorage.bars);
 
-      // workaround - on click of once forever, disable the button? can jquery be added into the controller?
+      };
 
+      $scope.drink = function() {
+        alert("Let's get a drink!");
       };
 
    }]);
 
-   //favorites only appear on reload of page; this isn't possible on an iphone app, so we never see the favorites, which is strange
-
 app.controller('FavoritesCtrl', ['$scope', '$state', function ($scope, $state) {
-
-  // $state.go($state.current, {}, { reload: true });
-  // $state.reload();
-  console.log($state);
-
-  // try scope apply to update the state - read about digest cycle
-  // window.refresh
-  // window.location.reload
 
   if (!localStorage.bars) {
    $scope.favorites = [];
@@ -223,6 +165,22 @@ app.controller('FavoritesCtrl', ['$scope', '$state', function ($scope, $state) {
     $scope.favorites = JSON.parse(localStorage.bars);
     console.log($scope.favorites);
   }
+
+  // delete a bar
+  $scope.deleteBar = function (bar) {
+    // get existing favorites from localStorage.bars
+    var allBars = JSON.parse(localStorage.bars);
+
+    var foundBar = _.findWhere(allBars, {id: bar.id});
+
+    allBars.splice(allBars.indexOf(foundBar), 1);
+
+    alert("You've removed " + foundBar.name + " from your favorites!");
+
+    // reset localStorage.bars to updated array of all bars
+    localStorage.bars = JSON.stringify(allBars);
+  };
+
 }]);
 
 app.controller('BarCtrl', ['$scope', '$rootScope', '$stateParams', '$routeParams', 'bars', '$timeout', '$cordovaGeolocation', '$ionicPlatform', '$http', '$cordovaSocialSharing', function($scope, $rootScope, $stateParams, $routeParams, bars, $timeout, $cordovaGeolocation, $ionicPlatform, $http, $cordovaSocialSharing){

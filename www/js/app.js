@@ -35,15 +35,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
     controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html'
-      }
-    }
-  })
-
   .state('app.browse', {
       url: '/browse',
       views: {
@@ -84,7 +75,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
         controller: 'FavoritesCtrl'
       }
     }
-  });
+  })
+
+  .state('app.about', {
+  url: '/about',
+  views: {
+    'menuContent': {
+      templateUrl: 'templates/about.html',
+      controller: 'MapCtrl'
+    }
+  }
+});
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/map');

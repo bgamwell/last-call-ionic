@@ -2,8 +2,11 @@
   <ion-content>
     <ion-list>
       <ion-item ng-repeat="bar in favorites" ng-href="#/app/bars/{{bar.id}}">
-        <p><strong>{{bar.name}}</strong></p>
+        <p>
+          <strong>{{bar.name}}</strong>
+        </p>
         <p>{{bar.vicinity}}</p>
+        <p ng-click="deleteBar(bar)">Remove from favorites</p>
       </ion-item>
     </ion-list>
   </ion-content>
