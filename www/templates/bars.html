@@ -1,12 +1,13 @@
 <ion-view view-title="Bar Information">
   <ion-content>
 
+    <br />
+
     <div class="list card">
 
       <div class="item">
-        <h2><strong>{{specificBar.name}}</strong></h2>
+        <h1><strong>{{specificBar.name}}</strong></h1>
         <div ng-if="specificBar.website !== null">
-          <p><a href='{{specificBar.website}}'>Website<a></p>
         </div>
       </div>
 
@@ -46,8 +47,6 @@
         </div>
       </div>
     </div>
-
-
 
   </ion-content>
 </ion-view>
