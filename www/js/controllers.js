@@ -34,7 +34,7 @@ app.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
   };
 });
 
-app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$timeout', '$cordovaGeolocation', '$ionicPlatform', '$routeParams', 'bars', function($scope, $rootScope, $stateParams, $http, $timeout, $cordovaGeolocation, $ionicPlatform, $routeParams, bars) {
+app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$timeout', '$cordovaGeolocation', '$ionicPlatform', '$routeParams', 'bars', '$state', function($scope, $rootScope, $stateParams, $http, $timeout, $cordovaGeolocation, $ionicPlatform, $routeParams, bars, $state) {
 
   $http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=37.7577,-122.4376&radius=30000&types=bar&keyword=gay&opennow&key=AIzaSyATy7HmpP5HnTkO6mGUuiAJFswORqSgk9w')
     .then(function(response) {
@@ -42,7 +42,7 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
       $rootScope.bars = response.data.results;
     });
 
-  $scope.$on('mapInitialized', function (event, map) {
+  $rootScope.$on('mapInitialized', function (event, map) {
     $scope.objMapa = map;
   });
 
@@ -93,6 +93,8 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
    };
 
    $rootScope.me = function() {
+
+     $state.go('app.map');
 
      var posOptions = {timeout: 10000, enableHighAccuracy: false};
      $cordovaGeolocation
