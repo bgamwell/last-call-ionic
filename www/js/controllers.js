@@ -34,7 +34,7 @@ app.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
   };
 });
 
-app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$timeout', '$cordovaGeolocation', '$ionicPlatform', '$routeParams', 'bars', '$state', function($scope, $rootScope, $stateParams, $http, $timeout, $cordovaGeolocation, $ionicPlatform, $routeParams, bars, $state) {
+app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$timeout', '$cordovaGeolocation', '$ionicPlatform', '$routeParams', '$state', function($scope, $rootScope, $stateParams, $http, $timeout, $cordovaGeolocation, $ionicPlatform, $routeParams, $state) {
 
   $http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=37.7577,-122.4376&radius=30000&types=bar&keyword=gay&opennow&key=AIzaSyATy7HmpP5HnTkO6mGUuiAJFswORqSgk9w')
     .then(function(response) {
@@ -96,6 +96,13 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
 
      $state.go('app.map');
 
+     // iterate over all infoWindows and close them
+     if (infoWindows.length !== 0) {
+       for (var i = 0 ; i < infoWindows.length ; i++) {
+         infoWindows[i].close();
+       }
+     }
+
      var posOptions = {timeout: 10000, enableHighAccuracy: false};
      $cordovaGeolocation
        .getCurrentPosition(posOptions)
@@ -104,6 +111,8 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
          var lng = position.coords.longitude;
 
          var infowindow = new google.maps.InfoWindow();
+
+         infoWindows.push(infowindow);
 
          var me = new google.maps.LatLng(lat, lng);
          $scope.objMapa.setCenter(me);
@@ -136,8 +145,6 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
       // get existing favorites from localStorage.bars
       $rootScope.allBars = JSON.parse(localStorage.bars);
 
-      // allBars.push(bar);
-
       if (!(_.findWhere($rootScope.allBars, {id: bar.id}))) {
         $rootScope.allBars.push(bar);
         console.log(bar);
@@ -152,10 +159,6 @@ app.controller('MapCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$ti
 
       };
 
-      $scope.drink = function() {
-        alert("Let's get a drink!");
-      };
-
    }]);
 
 app.controller('FavoritesCtrl', ['$scope', '$state', function ($scope, $state) {
@@ -164,33 +167,31 @@ app.controller('FavoritesCtrl', ['$scope', '$state', function ($scope, $state) {
    $scope.favorites = [];
   } else {
     $scope.favorites = JSON.parse(localStorage.bars);
-    console.log($scope.favorites);
   }
 
   // delete a bar
   $scope.deleteBar = function (bar) {
     // get existing favorites from localStorage.bars
-    var allBars = JSON.parse(localStorage.bars);
+    // var allBars = JSON.parse(localStorage.bars);
 
-    var foundBar = _.findWhere(allBars, {id: bar.id});
+    var foundBar = _.findWhere($scope.favorites, {id: bar.id});
 
-    allBars.splice(allBars.indexOf(foundBar), 1);
+    $scope.favorites.splice($scope.favorites.indexOf(foundBar), 1);
+
+    // reset localStorage.bars to updated array of all bars
+    localStorage.bars = JSON.stringify($scope.favorites);
 
     alert("You've removed " + foundBar.name + " from your favorites!");
 
-    // reset localStorage.bars to updated array of all bars
-    localStorage.bars = JSON.stringify(allBars);
   };
 
 }]);
 
-app.controller('BarCtrl', ['$scope', '$rootScope', '$stateParams', '$routeParams', 'bars', '$timeout', '$cordovaGeolocation', '$ionicPlatform', '$http', '$cordovaSocialSharing', function($scope, $rootScope, $stateParams, $routeParams, bars, $timeout, $cordovaGeolocation, $ionicPlatform, $http, $cordovaSocialSharing){
+app.controller('BarCtrl', ['$scope', '$rootScope', '$stateParams', '$routeParams', '$timeout', '$cordovaGeolocation', '$ionicPlatform', '$http', '$cordovaSocialSharing', function($scope, $rootScope, $stateParams, $routeParams, $timeout, $cordovaGeolocation, $ionicPlatform, $http, $cordovaSocialSharing){
 
   $scope.whichBar = $stateParams.barId;
 
   $scope.thisBar = _.findWhere($rootScope.bars, {id: $scope.whichBar});
-
-  console.log("place_id for thebar is " + $scope.thisBar.place_id);
 
   $http.get('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + $scope.thisBar.place_id + '&key=AIzaSyATy7HmpP5HnTkO6mGUuiAJFswORqSgk9w')
     .then(function(response) {
@@ -198,20 +199,20 @@ app.controller('BarCtrl', ['$scope', '$rootScope', '$stateParams', '$routeParams
       $scope.specificBar = response.data.result;
     });
 
-  $scope.shareThis = function (message, image, link) {
+  // $scope.shareThis = function (message, image, link) {
+  //
+  //   $cordovaSocialSharing.shareViaFacebook(message, image, link).then(function(result) {
+  //       alert("Shared to Facebook!");
+  //     }, function(err) {
+  //       alert("Oops, something went wrong! Try again, please.");
+  //   });
 
-    console.log(message);
-    console.log(image);
-    console.log(link);
-
-    $cordovaSocialSharing
-      .shareViaFacebook(message, image, link)
-      .then(function(result) {
-        alert("Shared to Facebook!");
-      }, function(err) {
-        alert("Oops, something went wrong! Try again, please.");
-    });
-
+    $scope.shareViaTwitter = function(message, image, link) {
+        $cordovaSocialSharing.canShareVia("twitter", message, image, link).then(function(result) {
+            $cordovaSocialSharing.shareViaTwitter(message, image, link);
+        }, function(error) {
+            alert("Cannot share on Twitter!");
+        });
   };
 
 }]);
